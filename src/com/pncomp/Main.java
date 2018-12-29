@@ -2,6 +2,7 @@ package com.pncomp;
 
 import com.pncomp.lifegame.domain.LifeArea;
 import com.pncomp.lifegame.domain.LifeField;
+import com.pncomp.lifegame.helpers.LifeManagerFactory;
 import com.pncomp.lifegame.initiators.DefaultRandomAreaInitiator;
 import com.pncomp.lifegame.initiators.RandomLifeInitiator;
 import com.pncomp.lifegame.LifeManager;
@@ -15,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        LifeManager mngr = new LifeManager(new LifeArea(new LifeField[AREA_SIZE][AREA_SIZE]));
+        LifeManager mngr = LifeManagerFactory.createLifeManager(AREA_SIZE);
         try {
             mngr.addSimulationListener(new AreaPresenter());
             mngr.addSimulationListener(new StatisticsPresenter());
