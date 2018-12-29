@@ -5,6 +5,8 @@ import com.pncomp.lifegame.domain.LifeField;
 import com.pncomp.lifegame.initiators.DefaultRandomAreaInitiator;
 import com.pncomp.lifegame.initiators.RandomLifeInitiator;
 import com.pncomp.lifegame.LifeManager;
+import com.pncomp.lifegame.presenters.AreaPresenter;
+import com.pncomp.lifegame.presenters.StatisticsPresenter;
 import com.pncomp.lifegame.proliferators.SimpleProliferator;
 
 public class Main {
@@ -15,8 +17,10 @@ public class Main {
 
         LifeManager mngr = new LifeManager(new LifeArea(new LifeField[AREA_SIZE][AREA_SIZE]));
         try {
+            mngr.addSimulationListener(new AreaPresenter());
+            mngr.addSimulationListener(new StatisticsPresenter());
             mngr.init(new RandomLifeInitiator(20), new DefaultRandomAreaInitiator(3));
-            mngr.run(5000, new SimpleProliferator());
+            mngr.run(50, new SimpleProliferator());
 
         } catch (Exception e) {
             e.printStackTrace();

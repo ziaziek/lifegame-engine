@@ -1,5 +1,8 @@
 package com.pncomp.lifegame.presenters;
 
+import com.pncomp.lifegame.ISimulationListener;
+import com.pncomp.lifegame.SimulationEvent;
+import com.pncomp.lifegame.SimulationEventType;
 import com.pncomp.lifegame.domain.LifeArea;
 
 /**
@@ -7,13 +10,13 @@ import com.pncomp.lifegame.domain.LifeArea;
  * This particular implementation prints out the area to the console.
  * To change this behaviour, override @printArea method
  */
-public class AreaPresenter {
+public class AreaPresenter implements ISimulationListener {
 
     /**
      * Prints out or presents the are to the user.
      * @param area Area to present.
      */
-    public void printArea(final LifeArea area ){
+    protected void printArea(final LifeArea area ){
         for (int i = 0; i < area.getLifeFields().length; i++) {
             for (int j = 0; j < area.getLifeFields()[i].length; j++) {
                 System.out.print(area.getLifeFields()[i][j].getOrg() != null ? " 1 " : " 0 ");
@@ -21,6 +24,13 @@ public class AreaPresenter {
             System.out.println();
         }
         System.out.println();
+    }
+
+    @Override
+    public void simulationChanged(SimulationEvent event) {
+        if(SimulationEventType.EPOCH_RUN.equals(event.getType())){
+            printArea(event.getArea());
+        }
     }
 
 //    public void printAreaWithFood(final LifeArea area){

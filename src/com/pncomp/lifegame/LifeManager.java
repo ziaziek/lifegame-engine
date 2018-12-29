@@ -4,8 +4,10 @@ import com.pncomp.lifegame.domain.LifeArea;
 import com.pncomp.lifegame.domain.LifeField;
 import com.pncomp.lifegame.initiators.AreaInitiator;
 import com.pncomp.lifegame.initiators.LifeInitiator;
-import com.pncomp.lifegame.presenters.AreaPresenter;
 import com.pncomp.lifegame.proliferators.Proliferator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class manages life simulation.
@@ -21,21 +23,24 @@ public class LifeManager {
     private  int increaseFood = 1;
     private boolean initRun;
 
-    public AreaPresenter getPresenter() {
-        return presenter;
-    }
-
-    public void setPresenter(AreaPresenter presenter) {
-        this.presenter = presenter;
-    }
-
-    private AreaPresenter presenter;
+    private List<ISimulationListener> simulationListeners;
 
     public LifeManager(final LifeArea area){
         this.area=area;
     }
 
     public  LifeManager(){};
+
+    public List<ISimulationListener> getSimulationListeners() {
+        return simulationListeners;
+    }
+
+    public void addSimulationListener(final ISimulationListener simulationListener){
+        if(simulationListeners==null){
+            simulationListeners=new ArrayList<>();
+        }
+        simulationListeners.add(simulationListener);
+    }
 
     /**
      * Runs life simulation.
@@ -49,10 +54,13 @@ public class LifeManager {
             System.out.println("If this is a subsequent run of this instance, and init was run, you may ignore this message.");
         }
 
+        notifyListeners(new SimulationEvent(SimulationEventType.START, area));
+
         for(int i=0; i< numberOfEpochs; i++){
             runEpoch(proliferator);
         }
 
+        notifyListeners(new SimulationEvent(SimulationEventType.FINISHED, area));
         initRun=false;
     }
 
@@ -110,25 +118,14 @@ public class LifeManager {
                 }
             }
         }
-        present(area);
+
+        notifyListeners(new SimulationEvent(SimulationEventType.EPOCH_RUN, area));
 
     }
 
-    private int numberOfOrganisms(final LifeArea area) {
-        LifeField[][] lifeFields = area.getLifeFields();
-        int n = 0;
-        for (int i = 0; i < area.getLifeFields().length; i++)
-            for (int j = 0; j < area.getLifeFields()[i].length; j++) {
-                if (area.getLifeFields()[i][j].getOrg() != null) {
-                    n++;
-                }
-            }
-        return n;
-    }
-
-    protected void present(LifeArea area){
-        if(presenter!=null){
-            presenter.printArea(area);
+    protected void notifyListeners(SimulationEvent evt){
+        if(getSimulationListeners()!=null){
+            getSimulationListeners().forEach(x -> x.simulationChanged(evt));
         }
     }
 }
