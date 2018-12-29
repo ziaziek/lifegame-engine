@@ -1,0 +1,16 @@
+Life game.
+
+Obszar - kwadrat o wymiarach n x n kwadratów.
+
+Każdy kwadrat posiada pewną początkową wartość pożywnienia f0 i maksymalną wartość pożywienia fmax.
+Na kwadratach żyją organizmy żywe - na każdym po jednym.
+
+Organizmy w trakcie epoki zużywają pożywienie o df i gromadzą je w sobie.  Organizm
+rozmnaża się: powstaje dodatkowy organizm na niezamieszkałym kwadracie.
+
+Gdy na danm kwadracie zabraknie pożywienia organizm umiera.
+
+W trakcie każdej epoki na niezamieszkałych kwadratach zwiększa się póla pożywienia o kf.
+
+
+Reprezeniacja - tablica n x n.
