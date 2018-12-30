@@ -23,6 +23,8 @@ public class LifeManager {
     private  int increaseFood = 1;
     private boolean initRun;
 
+    private boolean goSimulation = true;
+
     private List<ISimulationListener> simulationListeners;
 
     public LifeManager(final LifeArea area){
@@ -54,13 +56,20 @@ public class LifeManager {
             System.out.println("If this is a subsequent run of this instance, and init was run, you may ignore this message.");
         }
 
-        notifyListeners(new SimulationEvent(SimulationEventType.START, area));
+        if(goSimulation){
+            notifyListeners(new SimulationEvent(SimulationEventType.START, area));
 
-        for(int i=0; i< numberOfEpochs; i++){
-            runEpoch(proliferator);
+            for(int i=0; i< numberOfEpochs; i++){
+                if(goSimulation){
+                    runEpoch(proliferator);
+                }else {
+                    break;
+                }
+            }
+
+            notifyListeners(new SimulationEvent(SimulationEventType.FINISHED, area));
         }
 
-        notifyListeners(new SimulationEvent(SimulationEventType.FINISHED, area));
         initRun=false;
     }
 
@@ -128,4 +137,13 @@ public class LifeManager {
             getSimulationListeners().forEach(x -> x.simulationChanged(evt));
         }
     }
+
+    public boolean isGoSimulation() {
+        return goSimulation;
+    }
+
+    public void setGoSimulation(boolean goSimulation) {
+        this.goSimulation = goSimulation;
+    }
+
 }
