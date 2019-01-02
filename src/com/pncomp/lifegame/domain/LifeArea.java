@@ -55,7 +55,14 @@ public class LifeArea {
         return fields.toArray(new LifeField[fields.size()]);
     }
 
-
+    public void clear(){
+        for (int i = 0; i < lifeFields.length; i++) {
+            for (int j = 0; j < lifeFields[i].length; j++) {
+                LifeField lifeField = lifeFields[i][j];
+                lifeField.setOrg(null);
+            }
+        }
+    }
 
     public Pair[] adjacentFieldsIndice(int m, int n){
 

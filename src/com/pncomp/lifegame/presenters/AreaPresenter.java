@@ -28,7 +28,7 @@ public class AreaPresenter implements ISimulationListener {
 
     @Override
     public void simulationChanged(SimulationEvent event) {
-        if(SimulationEventType.EPOCH_RUN.equals(event.getType())){
+        if(SimulationEventType.START.equals(event.getType()) || SimulationEventType.EPOCH_RUN.equals(event.getType())){
             printArea(event.getArea());
         }
     }

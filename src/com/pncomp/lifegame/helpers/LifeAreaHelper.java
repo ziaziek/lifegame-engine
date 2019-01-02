@@ -17,4 +17,15 @@ public class LifeAreaHelper {
         return n;
     }
 
+    public static int numberOfOrganisms(final LifeField[]  lifeFields, boolean onlyOld){
+        int n=0;
+        for (int i = 0; i < lifeFields.length; i++) {
+            LifeField lifeField = lifeFields[i];
+            if(lifeField.getOrg()!=null && ((onlyOld && !lifeField.getOrg().isYoung()) || !onlyOld)){
+                n++;
+            }
+        }
+        return n;
+    }
+
 }

@@ -1,21 +1,11 @@
 package com.pncomp.lifegame.proliferators;
 
-import com.pncomp.lifegame.domain.LifeField;
-import com.pncomp.lifegame.domain.Organism;
+/**
+ * SimpleProlifertor class is replaced with {@code DefaultAdjacentFieldProliferator} class.
+ * This class will not be supported from version 3.0
+ */
+@Deprecated
+public class SimpleProliferator extends DefaultAdjacentFieldProliferator {
 
-public class SimpleProliferator implements Proliferator {
 
-    @Override
-    public void proliferateFromField(LifeField field, LifeField[] adj) {
-
-        if(field.getOrg()!=null && !field.getOrg().isYoung()){
-            for(LifeField lf : adj){
-                if(lf.getOrg()==null && lf.getFood()>0 ){
-                    lf.setOrg(new Organism());
-                    break;
-                }
-            }
-        }
-
-    }
 }
